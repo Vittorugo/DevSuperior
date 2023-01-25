@@ -1,0 +1,3 @@
+insert into tb_clients (name, cpf, income, birth_Date, children) values ('Maria Silva', '1234578901', 6500.0 ,TIMESTAMP WITH TIME ZONE '1980-06-4T12:00:00Z', 1 );
+insert into tb_clients (name, cpf, income, birth_Date, children) values ('João Pereira', '65748392012', 800.10 ,TIMESTAMP WITH TIME ZONE '1975-08-10T10:00:00Z', 2 );
+insert into tb_clients (name, cpf, income, birth_Date, children) values ('Victtor Hugo', '12015678491', 501.0 ,TIMESTAMP WITH TIME ZONE '2000-12-14T11:00:00Z', 3 );
