@@ -1,7 +1,6 @@
 package com.example.trabalhofinalcap01.dto;
 
 import com.example.trabalhofinalcap01.entities.Client;
-import com.example.trabalhofinalcap01.repositories.ClientRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +14,7 @@ import java.time.Instant;
 @AllArgsConstructor
 public class ClientDto {
 
+    private Long id;
     private String name;
     private String cpf;
     private Double income;
@@ -22,6 +22,7 @@ public class ClientDto {
     private Integer children;
 
     public ClientDto(Client entity) {
+        this.id = entity.getId();
         this.name = entity.getName();
         this.cpf = entity.getCpf();
         this.income = entity.getIncome();
