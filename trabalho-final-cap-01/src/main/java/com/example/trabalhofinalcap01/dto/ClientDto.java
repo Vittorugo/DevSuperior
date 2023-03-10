@@ -22,7 +22,6 @@ public class ClientDto {
     private Integer children;
 
     public ClientDto(Client entity) {
-        this.id = entity.getId();
         this.name = entity.getName();
         this.cpf = entity.getCpf();
         this.income = entity.getIncome();

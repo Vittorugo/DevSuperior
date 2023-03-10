@@ -23,4 +23,8 @@ public class ClientService {
     public ClientDto findById(Long id) {
         return new ClientDto(clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Client Not Found")));
     }
+
+    public Client insert(Client client) {
+        return clientRepository.save(client);
+    }
 }
