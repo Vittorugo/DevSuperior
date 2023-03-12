@@ -2,8 +2,10 @@ package com.example.trabalhofinalcap01.services;
 
 import com.example.trabalhofinalcap01.dto.ClientDto;
 import com.example.trabalhofinalcap01.entities.Client;
+import com.example.trabalhofinalcap01.mapper.ClientMapper;
 import com.example.trabalhofinalcap01.repositories.ClientRepository;
 import com.example.trabalhofinalcap01.services.exceptions.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,33 +15,35 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
+@RequiredArgsConstructor
 public class ClientService {
 
     @Autowired
     private ClientRepository clientRepository;
 
+    private final ClientMapper mapper;
+
     @Transactional
-    public Page<Client> findAll(PageRequest pageRequest) {
-        Page<Client> clients = clientRepository.findAll(pageRequest);
+    public Page<ClientDto> findAll(PageRequest pageRequest) {
+        Page<ClientDto> clients = clientRepository.findAll(pageRequest).map(mapper::toRepresentation);
         return clients;
     }
 
     @Transactional
-    public Client findById(Long id) {
-        return clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Client Not Found"));
+    public ClientDto findById(Long id) {
+        return mapper.toRepresentation(clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Client Not Found")));
     }
 
     @Transactional
-    public Client insert(Client client) {
-        return clientRepository.save(client);
+    public ClientDto insert(Client client) {
+        return mapper.toRepresentation(clientRepository.save(client));
     }
 
-    public Client update(ClientDto dto, Long id) {
+    public ClientDto update(ClientDto dto, Long id) {
         try {
             Client updateClient = clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Client not found for given id!"));
             updateClientAtributs(updateClient, dto);
-            clientRepository.save(updateClient);
-            return updateClient;
+            return mapper.toRepresentation(clientRepository.save(updateClient));
         } catch (jakarta.persistence.EntityNotFoundException e) {
             throw new EntityNotFoundException("Error updating Client!");
         }

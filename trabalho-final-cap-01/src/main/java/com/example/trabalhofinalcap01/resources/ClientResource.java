@@ -35,30 +35,30 @@ public class ClientResource {
             @RequestParam(value = "direction", defaultValue = "ASC") String direction
     ) {
         PageRequest pageRequest = PageRequest.of(page, sizePerPage);
-        Page<Client> clients = service.findAll(pageRequest);
-        return ResponseEntity.ok().body(clients.map(client -> clientMapper.toRepresentation(client)));
+        Page<ClientDto> clients = service.findAll(pageRequest);
+        return ResponseEntity.ok().body(clients);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ClientDto> findById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(clientMapper.toRepresentation(service.findById(id)));
+        return ResponseEntity.ok().body(service.findById(id));
     }
 
     @PostMapping
     public ResponseEntity<ClientDto> insert(@RequestBody ClientDto dto) {
-        Client newClient = service.insert(clientMapper.toDomain(dto));
+        ClientDto newClient = service.insert(clientMapper.toDomain(dto));
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(newClient.getId())
                 .toUri();
-        return ResponseEntity.created(uri).body(clientMapper.toRepresentation(newClient));
+        return ResponseEntity.created(uri).body(newClient);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ClientDto> update(@RequestBody ClientDto dto, @PathVariable Long id) {
-        Client updateClient = service.update(dto, id);
-        return ResponseEntity.ok().body(clientMapper.toRepresentation(updateClient));
+        ClientDto updateClient = service.update(dto, id);
+        return ResponseEntity.ok().body(updateClient);
     }
 
     @DeleteMapping("/{id}")

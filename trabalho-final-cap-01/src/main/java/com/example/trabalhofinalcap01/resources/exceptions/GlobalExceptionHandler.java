@@ -14,6 +14,8 @@ import java.time.Instant;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final String ENTITY_NOT_FOUND = "Entity not Found";
+
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<MessageError> handlerEntityNotFoundException(EntityNotFoundException exception, HttpServletRequest servletRequest) {
         MessageError error = MessageError.builder()
@@ -21,7 +23,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND.value())
                 .path(servletRequest.getRequestURI())
                 .time(Instant.now())
-                .error("Entity not Found")
+                .error(ENTITY_NOT_FOUND)
                 .build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
