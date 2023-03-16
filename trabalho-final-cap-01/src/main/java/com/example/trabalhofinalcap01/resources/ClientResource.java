@@ -23,8 +23,6 @@ public class ClientResource {
     @Autowired
     private ClientService service;
     private final ClientMapper clientMapper;
-    @Autowired
-    private ClientRepository clientRepository;
 
     @GetMapping
     public ResponseEntity<Page<ClientDto>> findAll(

@@ -4,15 +4,16 @@ import com.example.trabalhofinalcap01.dto.ClientDto;
 import com.example.trabalhofinalcap01.entities.Client;
 import com.example.trabalhofinalcap01.mapper.ClientMapper;
 import com.example.trabalhofinalcap01.repositories.ClientRepository;
+import com.example.trabalhofinalcap01.services.exceptions.DataBaseException;
 import com.example.trabalhofinalcap01.services.exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 @RequiredArgsConstructor
@@ -61,8 +62,10 @@ public class ClientService {
         try {
             clientRepository.deleteById(id);
             return "Client deleted successfully";
-        } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException("Client Not Found for given id");
+        } catch (EmptyResultDataAccessException exception) {
+            throw new EntityNotFoundException("Category ID Not Found");
+        } catch (DataIntegrityViolationException exception) {
+            throw new DataBaseException("Integrity violation");
         }
     }
 }
